@@ -3,29 +3,23 @@ if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
 }
 
-// スムーススクロール制御
+// スムーススクロール制御（★見切れないようにオフセットを強化）
 function smoothScrollTo(targetElement) {
     if (!targetElement) return;
 
-    let offset = 0;
+    let offset = 80; // 基本のヘッダーの高さ分の余白
 
-    if (targetElement.id === 'all-features') {
+    if (targetElement.id === 'ai-features' || targetElement.id === 'all-features') {
         const viewportHeight = window.innerHeight;
         const elementHeight = targetElement.offsetHeight;
-        offset = (viewportHeight - elementHeight) / 2 + 20;
-        if (offset < 60) offset = 80; 
+        offset = (viewportHeight - elementHeight) / 2;
+        if (offset < 100) offset = 100; // 画面が狭くてもヘッダー分＋αの余白を絶対確保
     } 
     else if (targetElement.id === 'use-cases') {
-        const viewportHeight = window.innerHeight;
-        const elementHeight = targetElement.offsetHeight;
-        offset = (viewportHeight - elementHeight) / 2 + 40;
-        if (offset < 0) offset = 0;
+        offset = 60;
     }
     else if (targetElement.tagName.toLowerCase() === 'section') {
-        offset = 0;
-    }
-    else {
-        offset = 20;
+        offset = 80; // セクション移動時は常にヘッダー分下げる
     }
 
     const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
@@ -46,21 +40,22 @@ window.switchView = function(targetId, btnElement) {
 
     const selectorArea = document.querySelector('.style-selector');
     if (selectorArea) {
-        const targetPosition = selectorArea.getBoundingClientRect().top + window.pageYOffset - 20;
+        const targetPosition = selectorArea.getBoundingClientRect().top + window.pageYOffset - 80; // ここもヘッダー分確保
         window.scrollTo({ top: targetPosition, behavior: 'smooth' });
     }
 };
 
-// 別ページから戻ってきた時の位置ズレ防止
+// 別ページから戻ってきた時の位置ズレ防止（features.htmlから戻った時などに機能）
 window.addEventListener('load', () => {
     if (window.location.hash) {
         const hash = window.location.hash;
         const target = document.querySelector(hash);
         if (target) {
+            // ブラウザの暴走を防ぐため、少し待ってから確実に見切れない位置へスクロール
             setTimeout(() => {
                 smoothScrollTo(target);
                 history.replaceState(null, null, window.location.pathname);
-            }, 100);
+            }, 150);
         }
     }
 });
@@ -84,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
             currentSlide = index;
             if (currentSlide >= slides.length) currentSlide = 0;
             if (currentSlide < 0) currentSlide = slides.length - 1;
-            // 全画面（width 100%）なので、そのまま translateX でOK
             sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
 
@@ -98,28 +92,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
         resetTimer();
 
-        // --- スマホ（タッチ）＆PC（マウス）両対応のスワイプ処理 ---
         let startX = 0;
         let startY = 0;
         let isDragging = false; 
 
-        // 共通のスワイプ判定・実行関数
         function handleSwipe(startX, startY, endX, endY) {
             const deltaX = startX - endX;
             const deltaY = startY - endY;
-            const threshold = 40; // 40px以上引っ張ったら判定
+            const threshold = 40; 
 
             if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > threshold) {
                 if (deltaX > 0) {
-                    nextSlide(); // 左へ引っ張った（次へ）
+                    nextSlide(); 
                 } else {
-                    prevSlide(); // 右へ引っ張った（前へ）
+                    prevSlide(); 
                 }
-                resetTimer(); // 自動再生リセット
+                resetTimer(); 
             }
         }
 
-        // ▼ スマホ用（タッチイベント）
+        // スマホ用（タッチ）
         sliderContainer.addEventListener("touchstart", (e) => {
             startX = e.changedTouches[0].screenX;
             startY = e.changedTouches[0].screenY;
@@ -131,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
             handleSwipe(startX, startY, endX, endY);
         }, { passive: true });
 
-        // ▼ PC用（マウスイベント）
+        // PC用（マウス）
         sliderContainer.addEventListener("mousedown", (e) => {
             isDragging = true;
             startX = e.pageX;
@@ -146,12 +138,10 @@ document.addEventListener("DOMContentLoaded", () => {
             handleSwipe(startX, startY, endX, endY);
         });
 
-        // マウスを押したままスライダーの外に出ちゃった時のキャンセル処理
         sliderContainer.addEventListener("mouseleave", () => {
             isDragging = false;
         });
 
-        // PCで画像をドラッグした時に「禁止マーク」や「残像」が出るのを防ぐ
         sliderContainer.addEventListener('dragstart', (e) => {
             e.preventDefault();
         });
@@ -161,26 +151,28 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. スマートヘッダー（上にスクロールで表示）
     // ==========================================
     const header = document.querySelector('header');
-    let lastScrollY = window.scrollY;
-    let scrolledUpAmount = 0; 
+    if (header) {
+        let lastScrollY = window.scrollY;
+        let scrolledUpAmount = 0; 
 
-    window.addEventListener('scroll', () => {
-        const currentScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
 
-        if (currentScrollY <= 80) {
-            header.classList.remove('header-hidden');
-            scrolledUpAmount = 0;
-        } else if (currentScrollY > lastScrollY) {
-            header.classList.add('header-hidden');
-            scrolledUpAmount = 0; 
-        } else {
-            scrolledUpAmount += (lastScrollY - currentScrollY);
-            if (scrolledUpAmount > 30) {
+            if (currentScrollY <= 80) {
                 header.classList.remove('header-hidden');
+                scrolledUpAmount = 0;
+            } else if (currentScrollY > lastScrollY) {
+                header.classList.add('header-hidden');
+                scrolledUpAmount = 0; 
+            } else {
+                scrolledUpAmount += (lastScrollY - currentScrollY);
+                if (scrolledUpAmount > 30) {
+                    header.classList.remove('header-hidden');
+                }
             }
-        }
-        lastScrollY = currentScrollY;
-    });
+            lastScrollY = currentScrollY;
+        });
+    }
 
     // ==========================================
     // 3. スクロールアニメーション (Fade-up)
@@ -212,12 +204,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 5. スムーススクロール（メニュークリック時）
+    // 5. スムーススクロール（メニュークリック・ロゴクリック時）
     // ==========================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+            
+            // ★ロゴ（href="#"）をクリックした時は、ブラウザの挙動を止めて一番上へスムーズに移動
+            if (targetId === '#') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
             
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
@@ -226,4 +224,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-});
+}); 
