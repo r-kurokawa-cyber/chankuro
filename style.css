@@ -3,11 +3,14 @@
 /* ==========================================================================
    リセット & グローバル設定
    ========================================================================== */
-*, *::before, *::after {
+*, 
+*::before, 
+*::after {
     box-sizing: border-box;
 }
 
-html, body {
+html, 
+body {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
@@ -31,7 +34,6 @@ body {
     background-color: var(--bg-base);
     color: var(--text-main);
     line-height: 1.8;
-    /* 見切れを防ぐ安全な折り返し設定 */
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -45,10 +47,11 @@ body {
     color: var(--accent-blue);
 }
 
+/* フェードアップアニメーション */
 .fade-up {
     opacity: 0;
     transform: translateY(40px);
-    transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .fade-up.visible {
@@ -56,7 +59,6 @@ body {
     transform: translateY(0);
 }
 
-/* ★PCでのみ改行し、スマホでは自然に折り返すためのクラス */
 br.pc {
     display: block;
 }
@@ -103,8 +105,9 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px 5%;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     position: fixed;
     width: 100%;
     top: 0;
@@ -122,6 +125,9 @@ header {
     font-weight: 500;
     letter-spacing: 0.1em;
     font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    color: var(--text-main);
+    cursor: pointer;
 }
 
 nav ul {
@@ -175,7 +181,7 @@ nav a:hover::after {
     border-radius: 50px;
     text-decoration: none;
     display: inline-block;
-    transition: 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
     font-weight: 500;
     letter-spacing: 0.05em;
     text-align: center;
@@ -201,24 +207,30 @@ nav a:hover::after {
 }
 
 /* ==========================================================================
-   メインスライダー & HERO セクション
+   下にはみ出す巨大メインスライダー (full-impact) + タイポグラフィ調整
    ========================================================================== */
-.slider-outer {
-    padding: 100px 20px 0 20px;
-    box-sizing: border-box;
+.slider-outer.full-impact {
+    padding: 0;
+    margin-top: 80px; /* ヘッダーの下から開始 */
+    width: 100%;
+    height: 115vh; /* 画面下部にはみ出す迫力サイズ */
 }
 
 .slider-container {
     position: relative;
-    min-height: calc(100vh - 80px);
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    border-radius: 20px;
+    touch-action: pan-y;
+    user-select: none;
+    cursor: grab;
+}
+
+.slider-container:active {
+    cursor: grabbing;
 }
 
 .slider-track {
-    position: absolute;
-    top: 0;
-    left: 0;
     display: flex;
     width: 100%;
     height: 100%;
@@ -238,211 +250,274 @@ nav a:hover::after {
     width: 100%;
     height: 100%;
     background-size: cover;
-    background-position: center right;
+    background-position: center top;
 }
 
-.slide-gradient-bottom {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 70%;
-    background: linear-gradient(to top, rgba(10, 15, 26, 0.95) 0%, transparent 100%);
-    z-index: 1;
-}
-
-.slide-gradient-left {
+/* 文字の視認性を上げるため、オーバーレイを全体的に少し濃く調整 */
+.slide-gradient-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, rgba(10, 15, 26, 0.98) 0%, transparent 100%);
+    /* 中間層から下にかけての「暗さ」を少し強め、文字のキャンバスを作ります */
+    background: linear-gradient(
+        to bottom, 
+        rgba(0, 0, 0, 0.4) 0%, 
+        rgba(0, 0, 0, 0.1) 30%, 
+        rgba(10, 15, 26, 0.5) 60%, 
+        rgba(10, 15, 26, 0.98) 100%
+    );
     z-index: 1;
 }
 
+/* コンテンツ配置 */
 .slide-content {
     position: absolute;
-    z-index: 2;
-}
-
-.slide-content.bottom-left {
-    bottom: 0;
-    left: 0;
-    padding: 80px 100px;
-}
-
-.slide-content.center-left {
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
+    z-index: 10;
     width: 100%;
-    padding: 0 100px;
+    height: 100%;
+    display: flex;
+    align-items: flex-end; /* 下揃え */
+    padding: 0 8% 140px 8%; /* 下にはみ出すため下部の余白を広めに */
+}
+
+/* おしゃれなテキストエリア設定 */
+.content-inner-box {
+    max-width: 900px;
+}
+
+/* ヒーローヘッダー (タイトルの上の小さなラベル群) */
+.hero-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.hero-category {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--accent-cyan);
+    opacity: 0.9;
+}
+
+.hero-separator {
+    width: 40px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .hero-label {
-    display: inline-block;
     font-family: 'Oswald', sans-serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.4em;
-    color: var(--accent-cyan);
-    margin-bottom: 25px;
-    border-left: 3px solid var(--accent-blue);
-    padding-left: 15px;
-    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: #fff;
+    opacity: 0.6;
 }
 
+/* メインタイトル (スマートな太さとシャープな影) */
 .hero-title {
     font-size: 5.2rem;
-    line-height: 1.2;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-weight: 500; /* ★900(極太)から500(中字)に変更し、知的でスマートな印象に */
+    line-height: 1.2; 
+    letter-spacing: 0.02em; /* 文字間を少しだけ開けて抜け感を出す */
     color: #ffffff;
     margin: 0 0 25px 0;
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    /* ★ぼんやりした影を排除し、輪郭を際立たせるシャープでごく薄い影に変更 */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
-.text-gradient {
-    background: linear-gradient(to right, #fff, var(--accent-cyan));
+/* グラデーションテキスト (にじみを排除し、クリーンな美しさに) */
+.text-gradient-glow {
+    background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    display: inline-block;
+    font-weight: 700; /* ここだけ少し太くしてアクセントに */
+    filter: none; /* ★にじみの原因だったドロップシャドウを完全削除 */
 }
 
+/* サブタイトル (細字で美しく、読みやすく) */
 .hero-subtitle {
-    font-size: 1.2rem;
-    font-weight: 300;
+    font-size: 1.1rem;
+    font-weight: 300; /* ★細字に変更して洗練された印象を強化 */
     color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 40px;
+    line-height: 1.9;
+    margin-bottom: 45px;
+    max-width: 650px;
     letter-spacing: 0.05em;
-    line-height: 1.8;
-    max-width: 600px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); /* 視認性確保のためのごく薄い影 */
 }
 
-.btn-primary {
+/* プレミアムなボタンデザイン */
+.btn-hero-premium {
     position: relative;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    padding: 16px 45px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    font-size: 0.85rem;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-}
-
-.btn-primary:hover {
-    background: #fff;
+    gap: 20px;
+    padding: 18px 45px;
+    background: #ffffff;
     color: #000;
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 82, 204, 0.4);
-}
-
-.vision-title {
-    font-size: 3.8rem;
+    text-decoration: none;
+    border-radius: 100px;
     font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    color: #ffffff;
-    margin: 0 0 30px 0;
-    text-shadow: 0 5px 20px rgba(0,0,0,0.3);
-}
-
-.vision-title .text-accent {
-    background: linear-gradient(135deg, #fff, var(--accent-cyan));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.vision-description {
-    font-size: 1.05rem;
-    line-height: 2.2;
+    font-size: 0.95rem;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.75);
-    border-left: 2px solid rgba(255, 255, 255, 0.2);
-    padding-left: 25px;
-    max-width: 600px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.btn-hero-premium:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0, 82, 204, 0.3);
+    background: var(--accent-cyan);
+    color: #fff;
+}
+
+.arrow-right {
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: currentColor;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.arrow-right::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    transform: rotate(45deg);
+}
+
+.btn-hero-premium:hover .arrow-right {
+    transform: translateX(8px);
 }
 
 /* ==========================================================================
-   USE CASES (ミニマル・ホワイトレイアウト)
+   USE CASES (横スクロールスライダー - コンパクト版)
    ========================================================================== */
-.square-grid-container {
-    display: grid;
-    /* ★4列から2列に変更し、1枚を大きく見せる */
-    grid-template-columns: repeat(2, 1fr);
-    /* ★余白（gap）を広げてゆとりを持たせる */
-    gap: 60px;
-    max-width: 1100px;
-    margin: 0 auto;
+.horizontal-scroll-wrapper {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    padding: 20px 0 60px 0;
+    cursor: grab;
 }
 
-.square-card {
-    position: relative;
-    /* ★四角い枠（aspect-ratio）を外し、高さ自由にする */
-    height: auto;
-    background: transparent; /* 背景は透明に */
+.scroll-container {
+    display: flex;
+    gap: 30px;
+    padding: 0 10%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-card {
+    flex: 0 0 320px;
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    scroll-snap-align: center;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s, border-color 0.5s;
     display: flex;
     flex-direction: column;
-    align-items: center; /* 中央揃え */
-    overflow: visible; /* 画像の影などが切れないようにする */
 }
 
-/* ★画像そのもののスタイリング */
-.use-case-img {
-    width: auto;
-    max-width: 90%; /* 横幅は少し余裕を持たせる */
-    height: auto;
-    max-height: 350px; /* PCで美しいサイズ感に固定 */
-    display: block;
-    margin-bottom: 30px; /* 画像とテキストの距離 */
-    border-radius: 8px; /* 好みで角を少し丸く */
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s;
-    /* ★白背景に溶け込むよう、影はごく薄く設定 */
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+.scroll-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 82, 204, 0.1);
+    border-color: rgba(0, 82, 204, 0.2);
 }
 
-/* ホバーした時のアニメーション（ふわっと浮き上がる） */
-.square-card:hover .use-case-img {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(0, 82, 204, 0.08); /* 青みを帯びた薄い影 */
-}
-
-.square-content {
-    /* ★ overlaid position (absoluteなど) を解除 */
-    position: static;
+.card-image-box {
     width: 100%;
-    padding: 0;
-    background: transparent;
-    text-align: center;
-    color: var(--text-main); /* 文字を黒に戻す */
+    height: 180px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 15px;
 }
 
-.square-content h3 {
-    font-size: 1.6rem;
-    font-weight: 700;
+.card-image-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.6s ease;
+}
+
+.scroll-card:hover .card-image-box img {
+    transform: scale(1.08);
+}
+
+.card-info {
+    padding: 25px;
+    text-align: left;
+    background: #fff;
+    flex-grow: 1;
+}
+
+.card-tag {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    display: block;
     margin-bottom: 12px;
+}
+
+.card-info h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 10px;
     color: var(--text-main);
 }
 
-.square-content p {
-    font-size: 1rem;
-    margin: 0;
+.card-info p {
+    font-size: 0.85rem;
     color: var(--text-sub);
-    line-height: 1.8;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.scroll-hint {
+    text-align: center;
+    margin-top: -20px;
+}
+
+.hint-text {
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    opacity: 0.6;
+    background: var(--bg-gray);
+    padding: 8px 20px;
+    border-radius: 50px;
 }
 
 /* ==========================================================================
-   AI FEATURES
+   モダン・ダーク CTAバナー (FEATURES)
    ========================================================================== */
 #ai-features {
     position: relative;
-    background-color: var(--bg-base);
     overflow: hidden;
 }
 
@@ -466,80 +541,9 @@ nav a:hover::after {
     z-index: 1;
 }
 
-.ai-lead {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: var(--text-sub);
-    margin-bottom: 60px;
-}
-
-.modern-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.ai-card {
-    background: transparent;
-    border-radius: 24px;
-    padding: 2px;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.ai-card-inner {
-    background: #fff;
-    border: 1px solid var(--border-light);
-    border-radius: 22px;
-    height: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.ai-card-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-bottom: 1px solid var(--border-light);
-}
-
-.ai-card-body {
-    padding: 30px;
-    text-align: left;
-    flex-grow: 1;
-}
-
-.ai-card h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin: 0 0 10px 0;
-    color: var(--text-main);
-}
-
-.ai-card p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--text-sub);
-    margin: 0;
-}
-
-.ai-card:hover {
-    transform: translateY(-8px);
-    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-    box-shadow: 0 20px 40px rgba(0, 198, 255, 0.15);
-}
-
-.ai-card:hover .ai-card-body {
-    background: linear-gradient(145deg, #ffffff, #f4f9ff);
-}
-
-/* ==========================================================================
-   モダン・ダーク CTAバナー (文字の改行を最適化)
-   ========================================================================== */
 .cta-banner-wide-wrapper {
-    margin-top: 120px;
-    max-width: 1200px; /* 全体の枠を広げてゆとりを出す */
+    margin-top: 40px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     padding: 0 20px;
@@ -600,7 +604,7 @@ nav a:hover::after {
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 35px;
-    word-break: normal; /* 単語の途中で切れるのを防ぐ */
+    word-break: normal;
     overflow-wrap: normal;
 }
 
@@ -737,8 +741,14 @@ nav a:hover::after {
 }
 
 @keyframes fadeInTab {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0; 
+        transform: translateY(15px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
 
 .detail-header {
@@ -874,10 +884,11 @@ nav a:hover::after {
 }
 
 /* ==========================================================================
-   PRICING & DOWNLOAD (1画面に美しく収まるコンパクト設計)
+   PRICING & DOWNLOAD (コンパクト設計)
    ========================================================================== */
-#pricing, #download {
-    padding-top: 80px; /* 100pxから縮小して画面への収まりを改善 */
+#pricing, 
+#download {
+    padding-top: 80px;
     padding-bottom: 80px;
     background: #ffffff;
     height: auto;
@@ -890,18 +901,25 @@ nav a:hover::after {
     margin: 0 auto;
     width: 100%;
     background: #fff;
-    border-radius: 20px; /* 丸みを少しシャープに */
+    border-radius: 20px;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0, 20, 50, 0.05); /* 影を少し控えめに */
+    box-shadow: 0 20px 50px rgba(0, 20, 50, 0.05);
     border: 1px solid var(--border-light);
 }
 
-/* ★全体の横幅を少し狭めて引き締める */
-#pricing .compact-grid { grid-template-columns: repeat(3, 1fr); max-width: 880px; }
-#download .compact-grid { grid-template-columns: repeat(2, 1fr); max-width: 780px; }
+#pricing .compact-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 880px;
+}
 
-.pricing-card, .store-card-vertical {
-    padding: 40px 25px; /* 上下左右の余白をダイエット (旧: 50px 35px) */
+#download .compact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 780px;
+}
+
+.pricing-card, 
+.store-card-vertical {
+    padding: 40px 25px;
     border-right: 1px solid var(--border-light);
     display: flex;
     flex-direction: column;
@@ -910,10 +928,16 @@ nav a:hover::after {
     transition: all 0.4s ease;
 }
 
-.pricing-card:first-child { border-radius: 20px 0 0 20px; }
-.pricing-card:last-child { border-radius: 0 20px 20px 0; border-right: none; }
-.store-card-vertical:first-child { border-radius: 20px 0 0 20px; }
-.store-card-vertical:last-child { border-radius: 0 20px 20px 0; border-right: none; }
+.pricing-card:first-child, 
+.store-card-vertical:first-child { 
+    border-radius: 20px 0 0 20px; 
+}
+
+.pricing-card:last-child, 
+.store-card-vertical:last-child { 
+    border-radius: 0 20px 20px 0; 
+    border-right: none; 
+}
 
 .featured-plan {
     background: linear-gradient(180deg, #f9fbff 0%, #ffffff 100%);
@@ -921,7 +945,8 @@ nav a:hover::after {
     z-index: 2;
 }
 
-.card-top .en-title, .store-card-vertical .en-title {
+.card-top .en-title, 
+.store-card-vertical .en-title {
     font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -929,10 +954,12 @@ nav a:hover::after {
     margin-bottom: 10px;
 }
 
-.featured-plan .en-title { color: var(--accent-blue); }
+.featured-plan .en-title {
+    color: var(--accent-blue);
+}
 
 .price {
-    font-size: 2.4rem; /* 2.8remから縮小し、圧迫感を減らす */
+    font-size: 2.4rem;
     font-family: 'Oswald', sans-serif;
     font-weight: 600;
     margin-bottom: 5px;
@@ -948,20 +975,22 @@ nav a:hover::after {
 
 .pricing-features {
     list-style: none;
-    padding: 20px 0; /* 余白を削減 */
+    padding: 20px 0;
     margin: 0 0 20px 0;
     border-top: 1px solid var(--border-light);
     flex-grow: 1;
 }
 
 .pricing-features li {
-    font-size: 0.8rem; /* リストの文字も少しスリムに */
+    font-size: 0.8rem;
     padding: 8px 0;
     color: var(--text-sub);
     border-bottom: 1px dashed rgba(0,0,0,0.05);
 }
 
-.pricing-features li:last-child { border-bottom: none; }
+.pricing-features li:last-child { 
+    border-bottom: none; 
+}
 
 .price-badge-modern {
     position: absolute;
@@ -996,9 +1025,8 @@ nav a:hover::after {
     width: 100%;
 }
 
-/* インストール専用装飾 */
 .store-device-icon {
-    font-size: 2.8rem; /* アイコンを少し小さく */
+    font-size: 2.8rem;
     margin-bottom: 10px;
 }
 
@@ -1014,16 +1042,42 @@ nav a:hover::after {
     flex-direction: column;
     gap: 10px;
     width: 100%;
-    max-width: 180px; /* ボタン幅をスリムに */
+    max-width: 180px;
     margin: 0 auto;
 }
 
-.store-btn-img { width: 100%; }
-.store-btn-img img { width: 100%; height: auto; transition: 0.3s; }
-.store-btn-img:hover img { opacity: 0.8; }
-.steam-btn, .win-btn { border-radius: 8px; padding: 10px; font-size: 0.8rem; color: #fff; text-decoration: none; width: 100%; display: inline-block; }
-.steam-btn { background: #1b2838; }
-.win-btn { background: #0078d4; }
+.store-btn-img { 
+    width: 100%; 
+}
+
+.store-btn-img img { 
+    width: 100%; 
+    height: auto; 
+    transition: opacity 0.3s; 
+}
+
+.store-btn-img:hover img { 
+    opacity: 0.8; 
+}
+
+.steam-btn, 
+.win-btn { 
+    border-radius: 8px; 
+    padding: 10px; 
+    font-size: 0.8rem; 
+    color: #fff; 
+    text-decoration: none; 
+    width: 100%; 
+    display: inline-block; 
+}
+
+.steam-btn { 
+    background: #1b2838; 
+}
+
+.win-btn { 
+    background: #0078d4; 
+}
 
 /* ==========================================================================
    FOOTER
@@ -1046,7 +1100,7 @@ footer {
     border-radius: 50%;
     cursor: pointer;
     opacity: 0;
-    transition: 0.3s;
+    transition: opacity 0.3s, background 0.3s;
     z-index: 1000;
 }
 
@@ -1054,20 +1108,20 @@ footer {
     opacity: 1;
 }
 
+.back-to-top:hover {
+    background: var(--accent-blue);
+}
+
 /* ==========================================================================
-   レスポンシブ対応（スマホ・タブレット完全対応）
+   レスポンシブ対応（スマホ・タブレット）
    ========================================================================== */
 @media (max-width: 992px) {
-    .modern-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
     .hero-title {
-        font-size: 4rem;
+        font-size: 4.5rem;
     }
 }
 
 @media (max-width: 768px) {
-    /* スマホではPC用の意図的な改行を無効化し、自然に折り返す */
     br.pc {
         display: none;
     }
@@ -1076,66 +1130,95 @@ footer {
         padding: 60px 5% 80px 5%;
     }
     
+    .slider-outer.full-impact {
+        height: 105vh; /* スマホでははみ出し量を控えめに */
+    }
+    
+    .slide-content {
+        padding: 0 24px 100px 24px;
+    }
+
+    /* スマホ用のタイポグラフィ調整 */
     .hero-title {
-        font-size: 3rem;
-        line-height: 1.2;
+        font-size: 3.2rem;
+        line-height: 1.3;
     }
-    
     .hero-subtitle {
-        font-size: 1rem;
-        line-height: 1.6;
+        font-size: 0.95rem;
+        line-height: 1.7;
     }
     
-    @media (max-width: 768px) {
-    .square-grid-container {
-        grid-template-columns: 1fr; /* スマホでは縦1列 */
-        gap: 50px;
-        padding: 0 15px;
+    .hero-header {
+        gap: 10px;
+        margin-bottom: 20px;
     }
-    .use-case-img {
-        max-height: 250px; /* スマホでは少し小さく */
-    }
-    .square-content h3 {
-        font-size: 1.4rem;
-    }
-}
     
-    /* ダークバナーのスマホ対応 */
+    .hero-separator {
+        width: 20px;
+    }
+    
+    .btn-hero-premium {
+        padding: 15px 35px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .scroll-card {
+        flex: 0 0 300px;
+    }
+    
+    .scroll-container {
+        padding: 0 20px;
+        gap: 20px;
+    }
+    
+    .card-image-box {
+        height: 200px;
+    }
+    
+    .scroll-hint {
+        display: none;
+    }
+    
     .cta-banner-split {
         flex-direction: column;
     }
+    
     .cta-banner-right {
         height: 250px;
         order: -1;
     }
+    
     .cta-banner-left {
         padding: 40px 30px;
     }
+    
     .cta-banner-left h3 {
         font-size: 2.2rem;
     }
+    
     .cta-image-overlay {
         background: linear-gradient(to bottom, #151d2d 0%, transparent 40%);
     }
+    
     .btn-premium-wide {
         width: 100%;
         justify-content: center;
     }
 
-    /* ASSETSタグのスマホ対応 */
     .ecosystem-tags {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         padding: 0 10px;
     }
+    
     .ecosystem-tags li {
         font-size: 0.85rem;
         padding: 10px 10px;
         text-align: center;
     }
 
-    /* 料金表・インストールのスマホ対応 */
     .compact-grid {
         grid-template-columns: 1fr !important;
         max-width: 400px !important;
@@ -1145,7 +1228,8 @@ footer {
         border: none;
     }
     
-    .pricing-card, .store-card-vertical {
+    .pricing-card, 
+    .store-card-vertical {
         border: 1px solid var(--border-light);
         border-radius: 20px !important;
         background: #fff;

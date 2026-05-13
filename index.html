@@ -6,17 +6,16 @@
     <title>Project: BitPerfect | 究極の動画編集体験</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <div class="logo">BitPerfect</div>
+        <a href="#" class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">BitPerfect</a>
         <nav>
             <ul>
                 <li><a href="#use-cases">SCENES</a></li>
-                <li><a href="#ai-features">AI TOOLS</a></li>
                 <li><a href="#all-features">FEATURES</a></li>
                 <li><a href="#experience">WORKFLOW</a></li>
                 <li><a href="#ecosystem">ASSETS</a></li>
@@ -27,46 +26,61 @@
     </header>
 
     <main>
-        <section id="main-slider" class="slider-outer">
-            <div class="slider-container fade-up">
+        <section id="main-slider" class="slider-outer full-impact">
+            <div class="slider-container">
                 <div class="slider-track">
                     
                     <div class="slide">
                         <div class="slide-bg-image" style="background-image: url('bp1.png');"></div>
-                        <div class="slide-gradient-bottom"></div>
-                        <div class="slide-content bottom-left">
-                            <span class="hero-label">NEXT-GEN VIDEO EDITOR</span>
-                            <h1 class="hero-title">
-                                プロの動画編集を、<br class="pc">
-                                <span class="text-gradient">もっと自由に。</span>
-                            </h1>
-                            <p class="hero-subtitle">
-                                スマホの手軽さと、PCのパワーを完璧にひとつに。<br class="pc">
-                                思い描いた最高の動画を、これひとつで形にします。
-                            </p>
-                            <div class="cta-group">
-                                <a href="#experience" class="btn btn-primary">スタイルを選ぶ</a>
+                        <div class="slide-gradient-overlay"></div>
+                        <div class="slide-content">
+                            <div class="content-inner-box fade-up">
+                                <div class="hero-header">
+                                    <span class="hero-category">VISION 2026</span>
+                                    <span class="hero-separator"></span>
+                                    <span class="hero-label">NEXT-GEN VIDEO EDITOR</span>
+                                </div>
+                                <h1 class="hero-title">
+                                    プロの動画編集を、<br class="pc">
+                                    <span class="text-gradient-glow">もっと自由に。</span>
+                                </h1>
+                                <p class="hero-subtitle">
+                                    スマホの手軽さと、PCの圧倒的なパワーを完璧に融合。<br class="pc">
+                                    あなたの創造性を、デバイスの境界から解き放ちます。
+                                </p>
+                                <div class="cta-group">
+                                    <a href="#experience" class="btn-hero-premium">
+                                        <span>スタイルを選択する</span>
+                                        <i class="arrow-right"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="slide">
                         <div class="slide-bg-image" style="background-image: url('bp2.png');"></div>
-                        <div class="slide-gradient-left"></div>
-                        <div class="slide-content center-left">
-                            <div class="vision-text-left">
-                                <span class="vision-label">ZERO FRICTION</span>
-                                <h2 class="vision-title">
-                                    「重さ」から、<br class="pc">
-                                    <span class="text-accent">解き放つ。</span>
-                                </h2>
-                                <div class="vision-description">
-                                    スマホとPCの境界線をなくし、いつでもどこでも続きを編集。<br class="pc">
-                                    重くなりがちな4K動画も、指先に吸い付く「なめらかな操作感」で動きます。<br class="pc">
-                                    ストレスゼロの環境で、あなたの作品を世界へ届けましょう。
+                        <div class="slide-gradient-overlay"></div>
+                        <div class="slide-content">
+                            <div class="content-inner-box fade-up">
+                                <div class="hero-header">
+                                    <span class="hero-category">PERFORMANCE</span>
+                                    <span class="hero-separator"></span>
+                                    <span class="hero-label">ZERO FRICTION</span>
                                 </div>
-                                <div class="cta-group" style="margin-top: 45px;">
-                                    <a href="#ai-features" class="btn btn-primary">機能の詳細を見る</a>
+                                <h1 class="hero-title">
+                                    「重さ」から、<br class="pc">
+                                    <span class="text-gradient-glow">解き放つ。</span>
+                                </h1>
+                                <p class="hero-subtitle">
+                                    4K映像も、重厚なエフェクトも、指先に吸い付くなめらかな操作感で。<br class="pc">
+                                    待機時間ゼロの次世代編集環境が、ここから始まります。
+                                </p>
+                                <div class="cta-group">
+                                    <a href="#all-features" class="btn-hero-premium">
+                                        <span>すべての機能を見る</span>
+                                        <i class="arrow-right"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -76,73 +90,83 @@
             </div>
         </section>
 
-       <section id="use-cases" class="framed-outer">
+        <section id="use-cases" class="framed-outer">
             <div class="sec-title fade-up">
                 <span class="en en-title">CREATE ANYTHING</span>
                 <h2 class="jp">どんな動画も、あなたの思いのままに。</h2>
             </div>
             
-            <div class="bento-grid-container fade-up">
-                
-                <div class="bento-card bento-tall">
-                    <div class="bento-content">
-                        <h3>日常の記録</h3>
-                        <p>何気ない日常の動画を、映画のようなワンシーンに。</p>
+            <div class="horizontal-scroll-wrapper fade-up">
+                <div class="scroll-container">
+                    
+                    <div class="scroll-card">
+                        <div class="card-image-box">
+                            <img src="bp16.png" alt="YouTube">
+                        </div>
+                        <div class="card-info">
+                            <span class="card-tag">YouTube</span>
+                            <h3>YouTube 動画制作</h3>
+                            <p>視聴者を惹きつけるカット割り、テロップ入れ、サムネイル作成までこれ一本で。</p>
+                        </div>
                     </div>
-                    <img src="bp16.png" alt="日常" class="bento-img bento-img-bottom">
-                </div>
 
-                <div class="bento-card bento-wide">
-                    <div class="bento-content bento-content-left">
-                        <h3>妥協なきプロ仕様</h3>
-                        <p>本格的な編集も、<br>これひとつで完結。</p>
+                    <div class="scroll-card">
+                        <div class="card-image-box">
+                            <img src="bp17.png" alt="Stories">
+                        </div>
+                        <div class="card-info">
+                            <span class="card-tag">Social Media</span>
+                            <h3>ストーリー・縦長動画</h3>
+                            <p>日常の1コマをドラマチックに。SNSに最適化されたエフェクトで一気に映える作品へ。</p>
+                        </div>
                     </div>
-                    <img src="bp19.png" alt="プロ" class="bento-img bento-img-right">
-                </div>
 
-                <div class="bento-card">
-                    <div class="bento-content">
-                        <h3>SNSコンテンツ</h3>
-                        <p>目を引く動画を、<br>より速くカンタンに。</p>
+                    <div class="scroll-card">
+                        <div class="card-image-box">
+                            <img src="bp18.png" alt="Game">
+                        </div>
+                        <div class="card-info">
+                            <span class="card-tag">Gaming</span>
+                            <h3>ゲームクリップの保存</h3>
+                            <p>決定的瞬間を逃さない。最高画質での録画と、素早いハイライト作成をサポート。</p>
+                        </div>
                     </div>
-                    <img src="bp17.png" alt="SNS" class="bento-img bento-img-bottom">
-                </div>
 
-                <div class="bento-card">
-                    <div class="bento-content">
-                        <h3>軽快な編集環境</h3>
-                        <p>重い作業にさよなら。<br>サクサク動く操作感を。</p>
+                    <div class="scroll-card">
+                        <div class="card-image-box">
+                            <img src="bp19.png" alt="Advanced">
+                        </div>
+                        <div class="card-info">
+                            <span class="card-tag">Professional</span>
+                            <h3>高度な映像編集</h3>
+                            <p>マルチカメラ編集や精密なカラーグレーディング。プロのこだわりをミリ単位で形にします。</p>
+                        </div>
                     </div>
-                    <img src="bp18.png" alt="快適" class="bento-img bento-img-bottom">
-                </div>
 
+                    <div class="scroll-card">
+                        <div class="card-image-box">
+                            <img src="bp7.png" alt="AI Generation">
+                        </div>
+                        <div class="card-info">
+                            <span class="card-tag">AI Magic</span>
+                            <h3>AI 映像生成</h3>
+                            <p>プロンプトから新しい映像を生み出す。素材探しに時間をかけず、創造性を爆発させましょう。</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="scroll-hint fade-up">
+                <span class="hint-text">Shift + マウスホイールで横にスクロールできます</span>
             </div>
         </section>
 
-        <section id="ai-features">
+        <section id="ai-features" style="padding: 40px 0 100px 0;">
             <div class="ai-bg-glow"></div>
-            <div class="sec-title fade-up">
-                <span class="en en-title">BEYOND IMAGINATION</span>
-                <h2 class="jp">その「想像」は、AIと共に現実へ。</h2>
-            </div>
+            
             <div class="ai-content fade-up">
-                <p class="ai-lead">
-                    BitPerfectのAIは、単なる自動化ツールではありません。<br class="pc">
-                    あなたの作りたいイメージを理解し、作業をサポートする優秀なアシスタントです。
-                </p>
-                <div class="ai-grid modern-grid">
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp7.png" class="ai-card-image"><div class="ai-card-body"><h3>背景透過 2.0</h3><p>人物の輪郭をAIが瞬時に認識。<br class="pc">髪の毛1本までキレイに切り抜きます。</p></div></div></div>
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp8.png" class="ai-card-image"><div class="ai-card-body"><h3>感情カット</h3><p>動画の盛り上がりをAIが見つけ、<br class="pc">一番いいテンポで自動カットします。</p></div></div></div>
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp9.png" class="ai-card-image"><div class="ai-card-body"><h3>スマートテロップ</h3><p>言葉のニュアンスを読み取り、<br class="pc">雰囲気に合ったテロップを自動作成。</p></div></div></div>
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp10.png" class="ai-card-image"><div class="ai-card-body"><h3>AI 作曲・同期</h3><p>動画の長さや雰囲気に合わせて、<br class="pc">著作権フリーのBGMを自動で作ります。</p></div></div></div>
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp11.png" class="ai-card-image"><div class="ai-card-body"><h3>ボイス・クローン</h3><p>あなたの声色をそのまま保ち、<br class="pc">別の言語への自然な吹き替えを実現。</p></div></div></div>
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp12.png" class="ai-card-image"><div class="ai-card-body"><h3>バズ予測</h3><p>SNSで「伸びる」シーンを予測し、<br class="pc">一番見られる動画に仕上げます。</p></div></div></div>
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp13.png" class="ai-card-image"><div class="ai-card-body"><h3>スマート・カラー</h3><p>憧れの映画の色合いを瞬時に再現。<br class="pc">暗い動画も明るくキレイに補正します。</p></div></div></div>
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp14.png" class="ai-card-image"><div class="ai-card-body"><h3>マジック消しゴム</h3><p>不要な映り込みを周囲と馴染ませ、<br class="pc">跡形もなく自然に消去します。</p></div></div></div>
-                    <div class="ai-card"><div class="ai-card-inner"><img src="bp15.png" class="ai-card-image"><div class="ai-card-body"><h3>オート効果音</h3><p>映像の中の「動き」に合わせて、<br class="pc">ぴったりの効果音を自動で付けます。</p></div></div></div>
-                </div>
-
-                <div id="all-features" class="cta-banner-wide-wrapper fade-up">
+                <div id="all-features" class="cta-banner-wide-wrapper">
                     <div class="cta-banner-split">
                         <div class="cta-banner-left">
                             <div class="cta-content-inner">
@@ -193,27 +217,63 @@
                     <p style="color: var(--text-sub); font-size: 1.1rem;">👆 スタイルを選択してください。</p>
                 </div>
                 <div id="style-sp" class="detail-block">
-                    <div class="detail-header"><span class="tag">FAST & INTUITIVE</span><h3>指先ひとつで、ハイクオリティ。</h3></div>
+                    <div class="detail-header">
+                        <span class="tag">FAST & INTUITIVE</span>
+                        <h3>指先ひとつで、ハイクオリティ。</h3>
+                    </div>
                     <div class="step-container">
-                        <div class="step-box"><h4>思い出を映画に</h4><p>スマホの動画をAIがキレイに補正。<br class="pc">1タップでプロのような質感へ。</p></div>
-                        <div class="step-box"><h4>おまかせ自動編集</h4><p>最高の瞬間だけを切り抜き、<br class="pc">音楽に合わせて自動で繋げます。</p></div>
-                        <div class="step-box"><h4>あらゆるSNSへ</h4><p>TikTokやYouTubeのサイズに合わせて、<br class="pc">一瞬で自動リサイズします。</p></div>
+                        <div class="step-box">
+                            <h4>思い出を映画に</h4>
+                            <p>スマホの動画をAIがキレイに補正。<br class="pc">1タップでプロのような質感へ。</p>
+                        </div>
+                        <div class="step-box">
+                            <h4>おまかせ自動編集</h4>
+                            <p>最高の瞬間だけを切り抜き、<br class="pc">音楽に合わせて自動で繋げます。</p>
+                        </div>
+                        <div class="step-box">
+                            <h4>あらゆるSNSへ</h4>
+                            <p>TikTokやYouTubeのサイズに合わせて、<br class="pc">一瞬で自動リサイズします。</p>
+                        </div>
                     </div>
                 </div>
                 <div id="style-pc" class="detail-block">
-                    <div class="detail-header"><span class="tag">MASTER THE PRECISION</span><h3>1フレームへのこだわり。</h3></div>
+                    <div class="detail-header">
+                        <span class="tag">MASTER THE PRECISION</span>
+                        <h3>1フレームへのこだわり。</h3>
+                    </div>
                     <div class="step-container">
-                        <div class="step-box"><h4>ミリ単位の追求</h4><p>音の波形を見ながら細かくカット。<br class="pc">ズレのない正確な操作感。</p></div>
-                        <div class="step-box"><h4>無限のレイヤー</h4><p>複雑な合成やアニメーションも、<br class="pc">カクつかずにすぐ確認できます。</p></div>
-                        <div class="step-box"><h4>プロ級サウンド</h4><p>AIが雑音を消してくれるだけでなく、<br class="pc">本格的な音の調整も可能です。</p></div>
+                        <div class="step-box">
+                            <h4>ミリ単位の追求</h4>
+                            <p>音の波形を見ながら細かくカット。<br class="pc">ズレのない正確な操作感。</p>
+                        </div>
+                        <div class="step-box">
+                            <h4>無限のレイヤー</h4>
+                            <p>複雑な合成やアニメーションも、<br class="pc">カクつかずにすぐ確認できます。</p>
+                        </div>
+                        <div class="step-box">
+                            <h4>プロ級サウンド</h4>
+                            <p>AIが雑音を消してくれるだけでなく、<br class="pc">本格的な音の調整も可能です。</p>
+                        </div>
                     </div>
                 </div>
                 <div id="style-hybrid" class="detail-block">
-                    <div class="detail-header"><span class="tag">THE SYNC REVOLUTION</span><h3>デバイスに縛られない。</h3></div>
+                    <div class="detail-header">
+                        <span class="tag">THE SYNC REVOLUTION</span>
+                        <h3>デバイスに縛られない。</h3>
+                    </div>
                     <div class="step-container">
-                        <div class="step-box"><h4>超高速データ転送</h4><p>クラウドを使わずに直接データ通信。<br class="pc">重い動画も一瞬でPCへ送れます。</p></div>
-                        <div class="step-box"><h4>素材を共有</h4><p>スマホで撮った動画が、<br class="pc">ケーブルを繋がずにPCで使えます。</p></div>
-                        <div class="step-box"><h4>すぐにシェア</h4><p>PCで仕上げた動画をスマホへ飛ばし、<br class="pc">最高品質のまま即SNSへ投稿。</p></div>
+                        <div class="step-box">
+                            <h4>超高速データ転送</h4>
+                            <p>クラウドを使わずに直接データ通信。<br class="pc">重い動画も一瞬でPCへ送れます。</p>
+                        </div>
+                        <div class="step-box">
+                            <h4>素材を共有</h4>
+                            <p>スマホで撮った動画が、<br class="pc">ケーブルを繋がずにPCで使えます。</p>
+                        </div>
+                        <div class="step-box">
+                            <h4>すぐにシェア</h4>
+                            <p>PCで仕上げた動画をスマホへ飛ばし、<br class="pc">最高品質のまま即SNSへ投稿。</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -240,10 +300,18 @@
 
             <div class="marquee-wrapper fade-up">
                 <div class="marquee-track">
-                    <img src="bp20.png" alt="アセット"><img src="bp21.png" alt="アセット"><img src="bp22.png" alt="アセット">
-                    <img src="bp23.png" alt="アセット"><img src="bp24.png" alt="アセット"><img src="bp25.png" alt="アセット">
-                    <img src="bp20.png" alt="アセット"><img src="bp21.png" alt="アセット"><img src="bp22.png" alt="アセット">
-                    <img src="bp23.png" alt="アセット"><img src="bp24.png" alt="アセット"><img src="bp25.png" alt="アセット">
+                    <img src="bp3.png" alt="アセット">
+                    <img src="bp4.png" alt="アセット">
+                    <img src="bp5.png" alt="アセット">
+                    <img src="bp6.png" alt="アセット">
+                    <img src="bp1.png" alt="アセット">
+                    <img src="bp2.png" alt="アセット">
+                    <img src="bp3.png" alt="アセット">
+                    <img src="bp4.png" alt="アセット">
+                    <img src="bp5.png" alt="アセット">
+                    <img src="bp6.png" alt="アセット">
+                    <img src="bp1.png" alt="アセット">
+                    <img src="bp2.png" alt="アセット">
                 </div>
             </div>
         </section>
@@ -255,6 +323,7 @@
             </div>
             
             <div class="pricing-grid compact-grid fade-up">
+                
                 <div class="pricing-card">
                     <div class="card-top">
                         <h3 class="en-title">MOBILE FREE</h3>
@@ -302,6 +371,7 @@
                         <a href="#download" class="btn btn-outline small-btn">機能を確認</a>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -337,7 +407,7 @@
     </main>
 
     <footer>
-        <div class="logo en-title">BIT PERFECT</div>
+        <div class="logo en-title" style="text-decoration: none;">BIT PERFECT</div>
         <p class="copyright">&copy; 2026 Project: BitPerfect.</p>
     </footer>
 
